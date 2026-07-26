@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BeLight — 圈住屏幕，直接问 AI</title>
+<meta name="description" content="BeLight 是轻量级桌面截图圈选问答工具：Alt+A 圈住任何内容，直接交给 AI 回答。重塑 AI 助手在问答场景的入口。">
+<style>
+  :root {
+    --bg: #0B0D12; --bg-card: #16181D; --bg-elev: #1F232B;
+    --text: #E8EAEE; --text-2: #9AA1AD; --accent: #4F8CFF; --accent-2: #7AB8FF;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  header { padding: 28px 0; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 22px; font-weight: 700; letter-spacing: .5px; }
+  .logo span { color: var(--accent); }
+  .badge-ver { font-size: 12px; color: var(--text-2); border: 1px solid #2A2F39; padding: 3px 10px; border-radius: 999px; }
+
+  .hero { text-align: center; padding: 88px 0 72px; }
+  .hero h1 { font-size: 46px; line-height: 1.25; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.sub { font-size: 18px; color: var(--text-2); max-width: 640px; margin: 0 auto 14px; }
+  .hero p.idea { font-size: 15px; color: var(--accent-2); margin-bottom: 40px; }
+  .cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 14px 34px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; transition: transform .15s, box-shadow .15s; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(79,140,255,.35); }
+  .btn-ghost { border: 1px solid #2A2F39; color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  section { padding: 56px 0; }
+  h2 { font-size: 30px; text-align: center; margin-bottom: 12px; }
+  .lead { text-align: center; color: var(--text-2); max-width: 620px; margin: 0 auto 40px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+  .card { background: var(--bg-card); border: 1px solid #22262E; border-radius: var(--radius); padding: 26px; }
+  .card h3 { font-size: 18px; margin-bottom: 10px; }
+  .card p { color: var(--text-2); font-size: 14.5px; }
+  .card .ico { font-size: 26px; display: block; margin-bottom: 12px; }
+
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; counter-reset: step; }
+  .step { background: var(--bg-card); border: 1px solid #22262E; border-radius: var(--radius); padding: 24px; position: relative; }
+  .step::before { counter-increment: step; content: counter(step); position: absolute; top: -14px; left: 20px; background: var(--accent); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+  .step h3 { font-size: 16px; margin: 8px 0 8px; }
+  .step p { color: var(--text-2); font-size: 14px; }
+  kbd { background: var(--bg-elev); border: 1px solid #2A2F39; border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; font-family: Consolas, monospace; font-size: 13px; }
+
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .vs { grid-template-columns: 1fr; } .hero h1 { font-size: 32px; } }
+  .vs .card ul { list-style: none; color: var(--text-2); font-size: 14.5px; }
+  .vs .card li { padding: 6px 0 6px 26px; position: relative; }
+  .vs .card li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .vs .old li::before { content: "✕"; color: #E05656; }
+
+  footer { border-top: 1px solid #22262E; padding: 32px 0 48px; text-align: center; color: var(--text-2); font-size: 13.5px; }
+  footer a { color: var(--accent-2); text-decoration: none; }
+  .dl-note { text-align: center; color: var(--text-2); font-size: 13px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">Be<span>Light</span></div>
+    <div class="badge-ver">v0.3.0 · Windows x64</div>
+  </header>
+
+  <section class="hero">
+    <h1>圈住屏幕上的任何内容<br><em>直接问 AI</em></h1>
+    <p class="sub">不切换窗口、不复制粘贴、不打断思路。一个快捷键，屏幕变暗，圈出你正在看的东西，AI 当场作答。</p>
+    <p class="idea">我们的想法：重塑 AI 助手在问答场景的入口——从"打开一个聊天窗口"变成"指着屏幕直接问"。</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 下载 Windows 版（安装程序）</a>
+      <a class="btn btn-ghost" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64_en-US.msi">MSI 包</a>
+    </div>
+    <p class="dl-note">安装包 &lt; 20 MB · 常驻内存 &lt; 50 MB · 冷启动 &lt; 1 秒 · 免费</p>
+  </section>
+
+  <section>
+    <h2>为什么是 BeLight</h2>
+    <p class="lead">今天向 AI 提问一件屏幕上的事，要经历：截图 → 保存 → 打开 AI → 上传 → 描述上下文 → 提问。BeLight 把六步压缩成两步。</p>
+    <div class="vs">
+      <div class="card old">
+        <h3>😮‍💨 传统方式</h3>
+        <ul>
+          <li>手动截图、找文件、上传</li>
+          <li>反复切窗口，思路被打断</li>
+          <li>用语言描述"我看到的东西在哪"</li>
+          <li>每次问答都是一次 context switch</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚡ BeLight 方式</h3>
+        <ul>
+          <li><b>Alt+A</b>，屏幕变暗，一圈即问</li>
+          <li>悬浮窗就地出答案，看完即走</li>
+          <li>画笔圈点，AI 精确理解你指的位置</li>
+          <li>问答发生在工作流内部，零切换</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>核心特点</h2>
+    <p class="lead">小、快、干净。做一件事，做到极致。</p>
+    <div class="grid">
+      <div class="card"><span class="ico">🎯</span><h3>圈选即问</h3><p>全局热键唤起，圈选屏幕任意区域，随手补一句问题，多模态大模型直接看图作答——无 OCR、无中间转换，原图直达。</p></div>
+      <div class="card"><span class="ico">🖌️</span><h3>画笔标注</h3><p>红圈、黄高亮、蓝箭头、绿序号四种标注。程序自动把标注坐标翻译成结构化语言注入提示词，AI 精确定位你指的地方。</p></div>
+      <div class="card"><span class="ico">🔀</span><h3>双通道回答</h3><p>API 通道：接入 OpenAI / Claude / Kimi，流式答案就地展示。网页通道：自动把截图+问题注入 Kimi / Copilot 网页版，在官方界面里继续深聊。</p></div>
+      <div class="card"><span class="ico">🪶</span><h3>轻若无物</h3><p>安装包小于 20 MB，常驻内存不到 50 MB，启动一秒内。托盘静默驻留，用时即来，不用时仿佛不存在。</p></div>
+      <div class="card"><span class="ico">🔒</span><h3>隐私自决</h3><p>密钥存系统钥匙串不落明文；历史记录仅存本地、可一键关闭或清除；截图只发给你自己选择的 AI 服务商。</p></div>
+      <div class="card"><span class="ico">🌍</span><h3>中英双语 · 亮暗主题</h3><p>界面语言、主题、字号、结果窗不透明度全部可调，设置即时生效。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>三步上手</h2>
+    <p class="lead">装好后驻留托盘，从第一次按键到拿到答案不超过十秒。</p>
+    <div class="flow">
+      <div class="step"><h3>唤起圈选</h3><p>任意界面按 <kbd>Alt</kbd>+<kbd>A</kbd>，屏幕变暗后拖出你想问的区域；可用画笔圈点重点，回车确认。</p></div>
+      <div class="step"><h3>补一句问题</h3><p>在圈选条里输入你的问题（也可以什么都不写），回车提交。</p></div>
+      <div class="step"><h3>拿到答案</h3><p>API 通道：悬浮窗流式出答案，可复制/重新生成/继续追问。网页通道：自动跳入 Kimi 或 Copilot 继续对话。</p></div>
+    </div>
+  </section>
+
+  <section style="text-align:center;">
+    <h2>现在开始</h2>
+    <p class="lead">下载安装，按一下 Alt+A，你就再也回不去截图-上传的老路了。</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 免费下载 BeLight v0.3.0</a>
+      <a class="btn btn-ghost" href="https://github.com/cortana-hk/belight-site/releases/tag/v0.3.0">查看版本说明</a>
+    </div>
+    <p class="dl-note">首次使用需在设置中配置你的 AI 服务（API Key 或网页通道登录），macOS 版本在路上。</p>
+  </section>
+
+  <footer>
+    <p>BeLight — 圈住屏幕，直接问 AI · <a href="https://github.com/cortana-hk/belight-site/releases">全部版本</a></p>
+    <p style="margin-top:6px;">本项目为免费软件，按"现状"提供，不提供任何明示或默示担保。</p>
+  </footer>
+
+</div>
+</body>
+</html>
