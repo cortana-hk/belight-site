@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BeLight — 圈住屏幕，直接问 AI</title>
 <meta name="description" content="BeLight 是轻量级桌面截图圈选问答工具：Alt+A 圈住任何内容，直接交给 AI 回答。重塑 AI 助手在问答场景的入口。">
+<meta property="og:title" content="BeLight — 圈住屏幕，直接问 AI">
+<meta property="og:description" content="不切换窗口、不复制粘贴。Alt+A 圈出屏幕上的任何内容，AI 当场作答。重塑 AI 助手在问答场景的入口。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cortana-hk.github.io/belight-site/">
+<meta property="og:image" content="https://cortana-hk.github.io/belight-site/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
   :root {
     --bg: #0B0D12; --bg-card: #16181D; --bg-elev: #1F232B;
@@ -12,13 +20,18 @@
     --radius: 16px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.7; }
+  body { background: var(--bg); color: var(--text); font-family: "Segoe UI", "PingFang SC", "PingFang TC", "Microsoft YaHei", "Microsoft JhengHei", sans-serif; line-height: 1.7; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-  header { padding: 28px 0; display: flex; align-items: center; justify-content: space-between; }
+  header { padding: 28px 0; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .logo { font-size: 22px; font-weight: 700; letter-spacing: .5px; }
   .logo span { color: var(--accent); }
+  .hd-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .badge-ver { font-size: 12px; color: var(--text-2); border: 1px solid #2A2F39; padding: 3px 10px; border-radius: 999px; }
+  .badge-mac { font-size: 12px; color: #F0B86E; border: 1px solid #4A3A22; background: #241C10; padding: 3px 10px; border-radius: 999px; }
+  .lang-sw { display: flex; border: 1px solid #2A2F39; border-radius: 999px; overflow: hidden; }
+  .lang-sw button { background: none; border: none; color: var(--text-2); font-size: 12px; padding: 4px 12px; cursor: pointer; }
+  .lang-sw button.on { background: var(--accent); color: #fff; }
 
   .hero { text-align: center; padding: 88px 0 72px; }
   .hero h1 { font-size: 46px; line-height: 1.25; margin-bottom: 20px; }
@@ -59,6 +72,7 @@
   footer { border-top: 1px solid #22262E; padding: 32px 0 48px; text-align: center; color: var(--text-2); font-size: 13.5px; }
   footer a { color: var(--accent-2); text-decoration: none; }
   .dl-note { text-align: center; color: var(--text-2); font-size: 13px; margin-top: 14px; }
+  .mac-note { text-align: center; color: #F0B86E; font-size: 13px; margin-top: 8px; }
 </style>
 </head>
 <body>
@@ -66,83 +80,174 @@
 
   <header>
     <div class="logo">Be<span>Light</span></div>
-    <div class="badge-ver">v0.3.0 · Windows x64</div>
+    <div class="hd-right">
+      <div class="badge-ver">v0.3.0 · Windows x64</div>
+      <div class="badge-mac" data-i18n="badge.mac">macOS 版开发中</div>
+      <div class="lang-sw">
+        <button data-lang="zh-CN" class="on">简体</button>
+        <button data-lang="zh-TW">繁體</button>
+        <button data-lang="en">EN</button>
+      </div>
+    </div>
   </header>
 
   <section class="hero">
-    <h1>圈住屏幕上的任何内容<br><em>直接问 AI</em></h1>
-    <p class="sub">不切换窗口、不复制粘贴、不打断思路。一个快捷键，屏幕变暗，圈出你正在看的东西，AI 当场作答。</p>
-    <p class="idea">我们的想法：重塑 AI 助手在问答场景的入口——从"打开一个聊天窗口"变成"指着屏幕直接问"。</p>
+    <h1><span data-i18n="hero.h1a">圈住屏幕上的任何内容</span><br><em data-i18n="hero.h1b">直接问 AI</em></h1>
+    <p class="sub" data-i18n="hero.sub">不切换窗口、不复制粘贴、不打断思路。一个快捷键，屏幕变暗，圈出你正在看的东西，AI 当场作答。</p>
+    <p class="idea" data-i18n="hero.idea">我们的想法：重塑 AI 助手在问答场景的入口——从"打开一个聊天窗口"变成"指着屏幕直接问"。</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 下载 Windows 版（安装程序）</a>
-      <a class="btn btn-ghost" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64_en-US.msi">MSI 包</a>
+      <a class="btn btn-primary" data-i18n="cta.dl" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 下载 Windows 版（安装程序）</a>
+      <a class="btn btn-ghost" data-i18n="cta.msi" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64_en-US.msi">MSI 包</a>
     </div>
-    <p class="dl-note">安装包 &lt; 20 MB · 常驻内存 &lt; 50 MB · 冷启动 &lt; 1 秒 · 免费</p>
+    <p class="dl-note" data-i18n="dl.note">安装包 &lt; 20 MB · 常驻内存 &lt; 50 MB · 冷启动 &lt; 1 秒 · 免费</p>
+    <p class="mac-note" data-i18n="dl.mac">macOS 版本正在开发中，敬请期待</p>
   </section>
 
   <section>
-    <h2>为什么是 BeLight</h2>
-    <p class="lead">今天向 AI 提问一件屏幕上的事，要经历：截图 → 保存 → 打开 AI → 上传 → 描述上下文 → 提问。BeLight 把六步压缩成两步。</p>
+    <h2 data-i18n="why.t">为什么是 BeLight</h2>
+    <p class="lead" data-i18n="why.lead">今天向 AI 提问一件屏幕上的事，要经历：截图 → 保存 → 打开 AI → 上传 → 描述上下文 → 提问。BeLight 把六步压缩成两步。</p>
     <div class="vs">
       <div class="card old">
-        <h3>😮‍💨 传统方式</h3>
+        <h3 data-i18n="why.oldT">😮‍💨 传统方式</h3>
         <ul>
-          <li>手动截图、找文件、上传</li>
-          <li>反复切窗口，思路被打断</li>
-          <li>用语言描述"我看到的东西在哪"</li>
-          <li>每次问答都是一次 context switch</li>
+          <li data-i18n="why.old1">手动截图、找文件、上传</li>
+          <li data-i18n="why.old2">反复切窗口，思路被打断</li>
+          <li data-i18n="why.old3">用语言描述"我看到的东西在哪"</li>
+          <li data-i18n="why.old4">每次问答都是一次 context switch</li>
         </ul>
       </div>
       <div class="card">
-        <h3>⚡ BeLight 方式</h3>
+        <h3 data-i18n="why.newT">⚡ BeLight 方式</h3>
         <ul>
-          <li><b>Alt+A</b>，屏幕变暗，一圈即问</li>
-          <li>悬浮窗就地出答案，看完即走</li>
-          <li>画笔圈点，AI 精确理解你指的位置</li>
-          <li>问答发生在工作流内部，零切换</li>
+          <li data-i18n="why.new1"><b>Alt+A</b>，屏幕变暗，一圈即问</li>
+          <li data-i18n="why.new2">悬浮窗就地出答案，看完即走</li>
+          <li data-i18n="why.new3">画笔圈点，AI 精确理解你指的位置</li>
+          <li data-i18n="why.new4">问答发生在工作流内部，零切换</li>
         </ul>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>核心特点</h2>
-    <p class="lead">小、快、干净。做一件事，做到极致。</p>
+    <h2 data-i18n="feat.t">核心特点</h2>
+    <p class="lead" data-i18n="feat.lead">小、快、干净。做一件事，做到极致。</p>
     <div class="grid">
-      <div class="card"><span class="ico">🎯</span><h3>圈选即问</h3><p>全局热键唤起，圈选屏幕任意区域，随手补一句问题，多模态大模型直接看图作答——无 OCR、无中间转换，原图直达。</p></div>
-      <div class="card"><span class="ico">🖌️</span><h3>画笔标注</h3><p>红圈、黄高亮、蓝箭头、绿序号四种标注。程序自动把标注坐标翻译成结构化语言注入提示词，AI 精确定位你指的地方。</p></div>
-      <div class="card"><span class="ico">🔀</span><h3>双通道回答</h3><p>API 通道：接入 OpenAI / Claude / Kimi，流式答案就地展示。网页通道：自动把截图+问题注入 Kimi / Copilot 网页版，在官方界面里继续深聊。</p></div>
-      <div class="card"><span class="ico">🪶</span><h3>轻若无物</h3><p>安装包小于 20 MB，常驻内存不到 50 MB，启动一秒内。托盘静默驻留，用时即来，不用时仿佛不存在。</p></div>
-      <div class="card"><span class="ico">🔒</span><h3>隐私自决</h3><p>密钥存系统钥匙串不落明文；历史记录仅存本地、可一键关闭或清除；截图只发给你自己选择的 AI 服务商。</p></div>
-      <div class="card"><span class="ico">🌍</span><h3>中英双语 · 亮暗主题</h3><p>界面语言、主题、字号、结果窗不透明度全部可调，设置即时生效。</p></div>
+      <div class="card"><span class="ico">🎯</span><h3 data-i18n="feat1.t">圈选即问</h3><p data-i18n="feat1.p">全局热键唤起，圈选屏幕任意区域，随手补一句问题，多模态大模型直接看图作答——无 OCR、无中间转换，原图直达。</p></div>
+      <div class="card"><span class="ico">🖌️</span><h3 data-i18n="feat2.t">画笔标注</h3><p data-i18n="feat2.p">红圈、黄高亮、蓝箭头、绿序号四种标注。程序自动把标注坐标翻译成结构化语言注入提示词，AI 精确定位你指的地方。</p></div>
+      <div class="card"><span class="ico">🔀</span><h3 data-i18n="feat3.t">双通道回答</h3><p data-i18n="feat3.p">API 通道：接入 OpenAI / Claude / Kimi，流式答案就地展示。网页通道：自动把截图+问题注入 Kimi / Copilot 网页版，在官方界面里继续深聊。</p></div>
+      <div class="card"><span class="ico">🪶</span><h3 data-i18n="feat4.t">轻若无物</h3><p data-i18n="feat4.p">安装包小于 20 MB，常驻内存不到 50 MB，启动一秒内。托盘静默驻留，用时即来，不用时仿佛不存在。</p></div>
+      <div class="card"><span class="ico">🔒</span><h3 data-i18n="feat5.t">隐私自决</h3><p data-i18n="feat5.p">密钥存系统钥匙串不落明文；历史记录仅存本地、可一键关闭或清除；截图只发给你自己选择的 AI 服务商。</p></div>
+      <div class="card"><span class="ico">🌍</span><h3 data-i18n="feat6.t">中英双语 · 亮暗主题</h3><p data-i18n="feat6.p">界面语言、主题、字号、结果窗不透明度全部可调，设置即时生效。</p></div>
     </div>
   </section>
 
   <section>
-    <h2>三步上手</h2>
-    <p class="lead">装好后驻留托盘，从第一次按键到拿到答案不超过十秒。</p>
+    <h2 data-i18n="step.t">三步上手</h2>
+    <p class="lead" data-i18n="step.lead">装好后驻留托盘，从第一次按键到拿到答案不超过十秒。</p>
     <div class="flow">
-      <div class="step"><h3>唤起圈选</h3><p>任意界面按 <kbd>Alt</kbd>+<kbd>A</kbd>，屏幕变暗后拖出你想问的区域；可用画笔圈点重点，回车确认。</p></div>
-      <div class="step"><h3>补一句问题</h3><p>在圈选条里输入你的问题（也可以什么都不写），回车提交。</p></div>
-      <div class="step"><h3>拿到答案</h3><p>API 通道：悬浮窗流式出答案，可复制/重新生成/继续追问。网页通道：自动跳入 Kimi 或 Copilot 继续对话。</p></div>
+      <div class="step"><h3 data-i18n="step1.t">唤起圈选</h3><p data-i18n="step1.p">任意界面按 Alt+A，屏幕变暗后拖出你想问的区域；可用画笔圈点重点，回车确认。</p></div>
+      <div class="step"><h3 data-i18n="step2.t">补一句问题</h3><p data-i18n="step2.p">在圈选条里输入你的问题（也可以什么都不写），回车提交。</p></div>
+      <div class="step"><h3 data-i18n="step3.t">拿到答案</h3><p data-i18n="step3.p">API 通道：悬浮窗流式出答案，可复制/重新生成/继续追问。网页通道：自动跳入 Kimi 或 Copilot 继续对话。</p></div>
     </div>
   </section>
 
   <section style="text-align:center;">
-    <h2>现在开始</h2>
-    <p class="lead">下载安装，按一下 Alt+A，你就再也回不去截图-上传的老路了。</p>
+    <h2 data-i18n="go.t">现在开始</h2>
+    <p class="lead" data-i18n="go.lead">下载安装，按一下 Alt+A，你就再也回不去截图-上传的老路了。</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 免费下载 BeLight v0.3.0</a>
-      <a class="btn btn-ghost" href="https://github.com/cortana-hk/belight-site/releases/tag/v0.3.0">查看版本说明</a>
+      <a class="btn btn-primary" data-i18n="go.dl" href="https://github.com/cortana-hk/belight-site/releases/download/v0.3.0/BeLight_0.3.0_x64-setup.exe">⬇ 免费下载 BeLight v0.3.0</a>
+      <a class="btn btn-ghost" data-i18n="go.rel" href="https://github.com/cortana-hk/belight-site/releases/tag/v0.3.0">查看版本说明</a>
     </div>
-    <p class="dl-note">首次使用需在设置中配置你的 AI 服务（API Key 或网页通道登录），macOS 版本在路上。</p>
+    <p class="dl-note" data-i18n="go.note">首次使用需在设置中配置你的 AI 服务（API Key 或网页通道登录）。</p>
+    <p class="mac-note" data-i18n="go.mac">macOS 版本正在开发中</p>
   </section>
 
   <footer>
-    <p>BeLight — 圈住屏幕，直接问 AI · <a href="https://github.com/cortana-hk/belight-site/releases">全部版本</a></p>
-    <p style="margin-top:6px;">本项目为免费软件，按"现状"提供，不提供任何明示或默示担保。</p>
+    <p><span data-i18n="ft.tag">BeLight — 圈住屏幕，直接问 AI</span> · <a data-i18n="ft.all" href="https://github.com/cortana-hk/belight-site/releases">全部版本</a></p>
+    <p style="margin-top:6px;" data-i18n="ft.disc">本项目为免费软件，按"现状"提供，不提供任何明示或默示担保。</p>
   </footer>
 
 </div>
+
+<script>
+const I18N = {
+  "zh-TW": {
+    "badge.mac":"macOS 版開發中",
+    "hero.h1a":"圈住螢幕上的任何內容","hero.h1b":"直接問 AI",
+    "hero.sub":"不切換視窗、不複製貼上、不打斷思路。一個快速鍵，螢幕變暗，圈出你正在看的東西，AI 當場作答。",
+    "hero.idea":"我們的想法：重塑 AI 助手在問答場景的入口——從「打開一個聊天視窗」變成「指著螢幕直接問」。",
+    "cta.dl":"⬇ 下載 Windows 版（安裝程式）","cta.msi":"MSI 套件",
+    "dl.note":"安裝包 < 20 MB · 常駐記憶體 < 50 MB · 冷啟動 < 1 秒 · 免費",
+    "dl.mac":"macOS 版本正在開發中，敬請期待",
+    "why.t":"為什麼是 BeLight",
+    "why.lead":"今天向 AI 提問一件螢幕上的事，要經歷：截圖 → 儲存 → 打開 AI → 上傳 → 描述上下文 → 提問。BeLight 把六步壓縮成兩步。",
+    "why.oldT":"😮‍💨 傳統方式","why.old1":"手動截圖、找檔案、上傳","why.old2":"反覆切視窗，思路被打斷","why.old3":"用語言描述「我看到的東西在哪」","why.old4":"每次問答都是一次 context switch",
+    "why.newT":"⚡ BeLight 方式","why.new1":"Alt+A，螢幕變暗，一圈即問","why.new2":"懸浮窗就地出答案，看完即走","why.new3":"畫筆圈點，AI 精確理解你指的位置","why.new4":"問答發生在工作流內部，零切換",
+    "feat.t":"核心特點","feat.lead":"小、快、乾淨。做一件事，做到極致。",
+    "feat1.t":"圈選即問","feat1.p":"全域熱鍵喚起，圈選螢幕任意區域，隨手補一句問題，多模態大模型直接看圖作答——無 OCR、無中間轉換，原圖直達。",
+    "feat2.t":"畫筆標註","feat2.p":"紅圈、黃高亮、藍箭頭、綠序號四種標註。程式自動把標註座標翻譯成結構化語言注入提示詞，AI 精確定位你指的地方。",
+    "feat3.t":"雙通道回答","feat3.p":"API 通道：接入 OpenAI / Claude / Kimi，串流答案就地展示。網頁通道：自動把截圖+問題注入 Kimi / Copilot 網頁版，在官方介面裡繼續深聊。",
+    "feat4.t":"輕若無物","feat4.p":"安裝包小於 20 MB，常駐記憶體不到 50 MB，啟動一秒內。系統匣靜默駐留，用時即來，不用時彷彿不存在。",
+    "feat5.t":"隱私自決","feat5.p":"金鑰存系統鑰匙圈不落明文；歷史記錄僅存本機、可一鍵關閉或清除；截圖只發給你自己選擇的 AI 服務商。",
+    "feat6.t":"中英雙語 · 亮暗主題","feat6.p":"介面語言、主題、字號、結果窗不透明度全部可調，設定即時生效。",
+    "step.t":"三步上手","step.lead":"裝好後駐留系統匣，從第一次按鍵到拿到答案不超過十秒。",
+    "step1.t":"喚起圈選","step1.p":"任意介面按 Alt+A，螢幕變暗後拖出你想問的區域；可用畫筆圈點重點，Enter 確認。",
+    "step2.t":"補一句問題","step2.p":"在圈選條裡輸入你的問題（也可以什麼都不寫），Enter 提交。",
+    "step3.t":"拿到答案","step3.p":"API 通道：懸浮窗串流出答案，可複製/重新生成/繼續追問。網頁通道：自動跳入 Kimi 或 Copilot 繼續對話。",
+    "go.t":"現在開始","go.lead":"下載安裝，按一下 Alt+A，你就再也回不去截圖-上傳的老路了。",
+    "go.dl":"⬇ 免費下載 BeLight v0.3.0","go.rel":"查看版本說明",
+    "go.note":"首次使用需在設定中配置你的 AI 服務（API Key 或網頁通道登入）。",
+    "go.mac":"macOS 版本正在開發中",
+    "ft.tag":"BeLight — 圈住螢幕，直接問 AI","ft.all":"全部版本",
+    "ft.disc":"本專案為免費軟體，按「現狀」提供，不提供任何明示或默示擔保。"
+  },
+  "en": {
+    "badge.mac":"macOS version in development",
+    "hero.h1a":"Circle anything on your screen","hero.h1b":"ask AI directly",
+    "hero.sub":"No window switching. No copy-paste. No breaking your flow. One hotkey dims the screen; circle what you're looking at and AI answers on the spot.",
+    "hero.idea":"Our idea: reinvent the entry point of AI assistants for Q&A — from \"open a chat window\" to \"point at the screen and ask\".",
+    "cta.dl":"⬇ Download for Windows (Installer)","cta.msi":"MSI Package",
+    "dl.note":"Installer < 20 MB · Memory < 50 MB · Cold start < 1 s · Free",
+    "dl.mac":"macOS version is in development — stay tuned",
+    "why.t":"Why BeLight",
+    "why.lead":"Asking AI about something on your screen today means: screenshot → save → open AI → upload → describe context → ask. BeLight compresses six steps into two.",
+    "why.oldT":"😮‍💨 The old way","why.old1":"Manual screenshots, finding files, uploading","why.old2":"Constant window switching breaks your flow","why.old3":"Describing in words \"where the thing I see is\"","why.old4":"Every question is a context switch",
+    "why.newT":"⚡ The BeLight way","why.new1":"Alt+A dims the screen — circle and ask","why.new2":"Answers appear in place, dismiss and move on","why.new3":"Annotate with the pen; AI knows exactly what you point at","why.new4":"Q&A happens inside your workflow, zero switching",
+    "feat.t":"Key features","feat.lead":"Small, fast, clean. One thing, done to perfection.",
+    "feat1.t":"Circle and ask","feat1.p":"A global hotkey captures any region; add a question and a multimodal LLM answers from the raw image — no OCR, no conversion, pixels straight through.",
+    "feat2.t":"Pen annotations","feat2.p":"Red circles, yellow highlights, blue arrows, green numbered marks. Coordinates are translated into structured language for the prompt, so AI pinpoints exactly what you mean.",
+    "feat3.t":"Two answer channels","feat3.p":"API channel: OpenAI / Claude / Kimi with streaming answers in place. Web channel: injects screenshot + question into Kimi or Copilot web apps to continue in their official UI.",
+    "feat4.t":"Featherweight","feat4.p":"Under 20 MB installer, under 50 MB resident memory, starts in a second. Sleeps quietly in the tray — there when you need it, invisible when you don't.",
+    "feat5.t":"Privacy by choice","feat5.p":"Keys live in the OS keychain, never in plaintext; history stays local and can be disabled or wiped; screenshots go only to the AI provider you choose.",
+    "feat6.t":"Bilingual · Light & dark","feat6.p":"Language, theme, font size and result-window opacity are all adjustable and take effect instantly.",
+    "step.t":"Up and running in 3 steps","step.lead":"It lives in the tray after install. First hotkey to first answer: under ten seconds.",
+    "step1.t":"Invoke and circle","step1.p":"Press Alt+A anywhere, drag over the region you're asking about; annotate with the pen and hit Enter.",
+    "step2.t":"Add a question","step2.p":"Type your question in the bar (or leave it empty) and press Enter.",
+    "step3.t":"Get the answer","step3.p":"API channel: a floating window streams the answer — copy, regenerate, or follow up. Web channel: jump straight into Kimi or Copilot to keep chatting.",
+    "go.t":"Start now","go.lead":"Install, press Alt+A once, and you'll never go back to the screenshot-upload routine.",
+    "go.dl":"⬇ Download BeLight v0.3.0 — Free","go.rel":"Release notes",
+    "go.note":"On first run, configure your AI service in Settings (API key or web-channel sign-in).",
+    "go.mac":"macOS version in development",
+    "ft.tag":"BeLight — Circle it, ask AI","ft.all":"All releases",
+    "ft.disc":"BeLight is free software, provided \"as is\", without warranty of any kind."
+  }
+};
+function setLang(l) {
+  const dict = I18N[l] || {};
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (dict[k] !== undefined) el.innerHTML = dict[k];
+    else { const orig = el.dataset.orig || el.innerHTML; el.dataset.orig = orig; el.innerHTML = orig; }
+  });
+  document.querySelectorAll('.lang-sw button').forEach(b => b.classList.toggle('on', b.dataset.lang === l));
+  document.documentElement.lang = l;
+  localStorage.setItem('belight-lang', l);
+}
+document.querySelectorAll('[data-i18n]').forEach(el => el.dataset.orig = el.innerHTML);
+document.querySelectorAll('.lang-sw button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+const saved = localStorage.getItem('belight-lang');
+const guess = saved || (navigator.language || 'zh-CN');
+setLang(guess.startsWith('zh-TW') || guess.startsWith('zh-Hant') || guess === 'zh-HK' || guess === 'zh-MO' ? 'zh-TW' : guess.startsWith('en') ? 'en' : 'zh-CN');
+</script>
 </body>
 </html>
